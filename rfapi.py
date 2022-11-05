@@ -10,12 +10,10 @@ app = Flask(__name__)
 @app.route("/RandomForest", methods=['GET','POST'])
 def predict():
     payload = request.json
-
     data = payload['data']
 
     df = pd.DataFrame()
     columns = list(data.keys())
-
     for col in columns:
         df[col] = [data[col]]
     
