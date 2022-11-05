@@ -1,21 +1,22 @@
 from flask import Flask, jsonify, request
 import pickle
 import pandas as pd
-import json
 
 with open('model.pickle', 'rb') as f:
     clf = pickle.load(f)
 
 app = Flask(__name__)
-@app.route("/RandomForest", methods=['GET','POST'])
+
+@app.route("/RandomForest", methods=['POST'])
 def predict():
     payload = request.json
     data = payload['data']
 
     df = pd.DataFrame()
     columns = list(data.keys())
-    for col in columns:
-        df[col] = [data[col]]
+    for col in columns:   
+        value = data[col]
+        df[col] = [value]
     
     df['female'] = df['Sex'].apply(lambda sex: 1 if sex == 'female' else 0)
     df['1Class'] = df['Pclass'].apply(lambda pclass: 1 if pclass==1 else 0)
